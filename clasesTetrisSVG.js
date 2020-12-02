@@ -283,9 +283,33 @@ class Juego{
 
 }
 
-
-var tetris;
+/* 
+var juego;
 window.onload=function(){
     svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
-    tetris= new Juego(svg, 20);
+    juego= new Juego(svg, 20);
+}; */
+
+
+var svg, pieza, tetris;
+window.onload=function(){
+    svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
+    pieza=new Pieza(svg, 25);
+    tetris=new Tetris(svg, 25);
+    document.addEventListener("keydown", function(e){
+        if(e.key=="ArrowDown"){
+            pieza.moveDown(tetris);
+            if(tetris.isGameOver())
+                location.reload();
+        }
+        if(e.code=="Space"){
+            pieza.rotate(tetris)
+        }
+        if(e.key=="ArrowLeft"){
+            pieza.moveLeft( tetris);
+        }
+        if(e.key=="ArrowRight"){
+            pieza.moveRight( tetris);
+        }
+    })
 };
