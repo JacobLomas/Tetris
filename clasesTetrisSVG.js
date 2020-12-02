@@ -140,10 +140,8 @@ class Pieza{
             this.generarPieza(this.svg);
         }else{
             this.offset.y++;
-            this.rectS.forEach(function(rect){
-                let y=parseInt(rect.getAttribute("y"));
-                rect.setAttribute("y",y+size);
-            })
+            this.eliminarNodosRect();
+            this.drawPiece();
         }
     }
     moveLeft(tetris){
@@ -152,10 +150,8 @@ class Pieza{
         if(this.colision(tetris)){
             this.offset.x++;
         }else{
-            this.rectS.forEach(function(rect){
-                let x=parseInt(rect.getAttribute("x"));
-                rect.setAttribute("x",x-size);
-            })
+            this.eliminarNodosRect();
+            this.drawPiece();
         }
     }
     moveRight(tetris){
@@ -164,10 +160,8 @@ class Pieza{
         if(this.colision(tetris)){
             this.offset.x--;
         }else{
-            this.rectS.forEach(function(rect){
-                let x=parseInt(rect.getAttribute("x"));
-                rect.setAttribute("x",x+size);
-            })
+            this.eliminarNodosRect()
+            this.drawPiece();
         }
     }
     colision(tetris){
