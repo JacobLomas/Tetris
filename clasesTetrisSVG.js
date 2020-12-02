@@ -283,14 +283,14 @@ class Juego{
 
 }
 
-/* 
+
 var juego;
 window.onload=function(){
     svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
     juego= new Juego(svg, 20);
-}; */
+};
 
-
+/* 
 var svg, pieza, tetris;
 window.onload=function(){
     svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
@@ -312,4 +312,4 @@ window.onload=function(){
             pieza.moveRight( tetris);
         }
     })
-};
+}; */
