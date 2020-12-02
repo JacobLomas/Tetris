@@ -67,7 +67,7 @@ class Pieza{
         }
         this.rectS=[];
         this.offset={
-            x:0,
+            x:3,
             y:0
         };
         this.drawPiece();
@@ -255,7 +255,6 @@ class Juego{
     constructor(svg, tamanoCuadrado){
         this.tetris=new Tetris(svg, tamanoCuadrado);
         this.pieza=new Pieza(svg, tamanoCuadrado);
-        console.log(this.pieza);
         this.controles();
     }
     loop(){
@@ -263,9 +262,9 @@ class Juego{
         this.pieza.moveDown(this.tetris);
     }
     controles(){
-        document.addEventListener("keydown", function(e){
+        document.addEventListener("keydown", (e)=>{
             if(e.key=="ArrowDown"){
-                this.pieza.moveDown(tetris);
+                this.pieza.moveDown(this.tetris);
                 if(this.tetris.isGameOver())
                     location.reload();
             }
@@ -273,10 +272,10 @@ class Juego{
                 this.pieza.rotate(this.tetris)
             }
             if(e.key=="ArrowLeft"){
-                this.moveLeft( this.tetris);
+                this.pieza.moveLeft(this.tetris);
             }
             if(e.key=="ArrowRight"){
-                this.moveRight( this.tetris);
+                this.pieza.moveRight(this.tetris);
             }
         })
     }
