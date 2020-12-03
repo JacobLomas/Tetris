@@ -270,7 +270,7 @@ export class Juego{
                 else
                     if(toqueX>anchoWindow*0.66 && toqueY<altoWindow*0.66)
                         this.pieza.rotate(this.tetris);
-                    else if(toqueY>altoWindow*0.66 && toqueX<anchoWindow*0.33 && toqueX>anchoWindow*0.66)
+                    else if(toqueY>altoWindow*0.66 && toqueX>anchoWindow*0.33 && toqueX<anchoWindow*0.66)
                             this.loop();
                         else
                             this.pieza.moveRight(this.tetris);           
