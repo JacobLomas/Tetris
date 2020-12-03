@@ -296,6 +296,7 @@ window.onload=function(){
         
     });
 };
+
 function loop(){
     var intervalo=setInterval(()=>{
         if(juego.loop()){
@@ -306,5 +307,4 @@ function loop(){
             clearInterval(intervalo);
         }
     },500);
-    
 }
