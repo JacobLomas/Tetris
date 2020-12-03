@@ -1,4 +1,4 @@
-class Pieza{
+export class Pieza{
     constructor(svg, tamanoCuadrado){
         this.rectSize=parseInt(tamanoCuadrado);
         this.generarPieza(svg);
@@ -81,7 +81,7 @@ class Pieza{
                     rect.setAttribute("x", x*this.rectSize+this.offset.x*this.rectSize);
                     rect.setAttribute("y", y*this.rectSize+this.offset.y*this.rectSize);
                     rect.setAttribute("fill", this.color);
-                    svg.appendChild(rect);
+                    this.svg.appendChild(rect);
                     this.rectS.push(rect);
                 }
             });
@@ -174,7 +174,7 @@ class Pieza{
     }
 }
 
-class Tetris{
+export class Tetris{
     constructor(svg, tamanoCuadrado){
         this.nivel=0;
         this.lineasBorradas=0;
@@ -241,7 +241,7 @@ class Tetris{
     }
 }
 
-class Juego{
+export class Juego{
     constructor(svg, tamanoCuadrado){
         this.tetris=new Tetris(svg, tamanoCuadrado);
         this.pieza=new Pieza(svg, tamanoCuadrado);
@@ -258,6 +258,28 @@ class Juego{
             return true
     }
     controles(){
+        //Eventos de manejo en dispositivos móviles
+        if(/android/i.test(navigator.userAgent) || /windows phone/i.test(navigator.userAgent) || (/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream)){
+            document.addEventListener("touchstart", (e)=>{
+                let anchoWindow=document.body.getBoundingClientRect().width;
+                let altoWindow=document.body.getBoundingClientRect().height;
+                let toqueX=e.touches[0].pageX;
+                let toqueY=e.touches[0].pageY;
+                if(toqueX<anchoWindow*0.33 && toqueY<altoWindow*0.66)
+                    this.pieza.moveLeft(this.tetris);
+                else{
+                    if(toqueX<anchoWindow*0.66 && toqueY<altoWindow*0.66){
+                        if(toqueY>altoWindow*0.66)
+                            this.loop();
+                        else
+                            this.pieza.rotate(this.tetris);
+                    }
+                    else
+                        this.pieza.moveRight(this.tetris);
+                }        
+            })
+        }
+        //Eventos de manejo en ordenadores
         document.addEventListener("keydown", (e)=>{
             if(e.key=="ArrowDown")
                 this.loop();
@@ -270,41 +292,4 @@ class Juego{
         })
     }
 
-}
-
-
-var startBtn, juego, colorInput, otraVezbtn;
-window.onload=function(){
-    startBtn=document.getElementById("start");
-    otraVezbtn=document.getElementById("playAgain");
-    colorInput=document.getElementById("svgColor");
-    svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
-    startBtn.addEventListener("click", ()=>{
-        document.getElementById("firstFC").style.display="none";
-        svg.style.display="initial";
-        svg.style.backgroundColor=colorInput.value;
-        juego = new Juego(svg, 30);
-        loop();
-        
-    });
-    otraVezbtn.addEventListener("click", ()=>{
-        document.getElementById("gameOver").style.display="none";
-        svg.style.display="initial";
-        svg.style.backgroundColor=colorInput.value;
-        juego = new Juego(svg, 30);
-        loop();
-        
-    });
-};
-
-function loop(){
-    var intervalo=setInterval(()=>{
-        if(juego.loop()){
-            svg.style.display="none";
-            svg.innerHTML="";
-            document.getElementById("gameOver").style.display="flex";
-            document.getElementById("lineasRotas").innerText+="Lineas rotas: "+juego.lineasBorradas();
-            clearInterval(intervalo);
-        }
-    },500);
 }
