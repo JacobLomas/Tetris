@@ -10,6 +10,8 @@ window.onload=function(){
     startBtn.addEventListener("click", ()=>{ 
         document.getElementById("firstFC").style.display="none";
         spoty.style.display="initial";
+        if(/android/i.test(navigator.userAgent) || /windows phone/i.test(navigator.userAgent) || (/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream))
+            spoty.style.display="none";
         svg.style.display="initial";
         svg.style.backgroundColor=colorInput.value;
         juego = new Juego(svg, 30);
