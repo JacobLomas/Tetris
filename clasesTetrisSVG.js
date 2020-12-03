@@ -2,7 +2,6 @@ class Pieza{
     constructor(svg, tamanoCuadrado){
         this.rectSize=parseInt(tamanoCuadrado);
         this.generarPieza(svg);
-        
     }
     generarPieza(svg){
         this.svg=svg;
@@ -73,26 +72,22 @@ class Pieza{
         this.drawPiece();
     }
     drawPiece(){
-        const color=this.color;
-        let size=this.rectSize;
-        let offset=this.offset;
-        let rectS=this.rectS;
-        this.matriz.forEach(function(row, y){
-            row.forEach(function(value, x){
+        this.matriz.forEach((row, y)=>{
+            row.forEach((value, x)=>{
                 if(value!=0){
                     let rect=document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                    rect.setAttribute("height", size);
-                    rect.setAttribute("width", size);
-                    rect.setAttribute("x", x*size+offset.x*size);
-                    rect.setAttribute("y", y*size+offset.y*size);
-                    rect.setAttribute("fill", color);
+                    rect.setAttribute("height", this.rectSize);
+                    rect.setAttribute("width", this.rectSize);
+                    rect.setAttribute("x", x*this.rectSize+this.offset.x*this.rectSize);
+                    rect.setAttribute("y", y*this.rectSize+this.offset.y*this.rectSize);
+                    rect.setAttribute("fill", this.color);
                     svg.appendChild(rect);
-                    rectS.push(rect);
+                    this.rectS.push(rect);
                 }
             });
         });
     }
-    rotate(){
+    rotate(tetris){
         const pos=this.offset.x;
         var compensador=1;
         for(var y=0; y<this.matriz.length; y++){
@@ -181,7 +176,8 @@ class Pieza{
 
 class Tetris{
     constructor(svg, tamanoCuadrado){
-        this.rectS=new Array(20).fill(new Array(10));
+        this.nivel=0;
+        this.lineasBorradas=0;
         this.rectSize=tamanoCuadrado;
         this.svg=svg;
         svg.setAttribute("width", tamanoCuadrado*10);
@@ -195,7 +191,7 @@ class Tetris{
         }
         return matriz;
     }
-    adherirPieza(matriz, posicion, rectS){
+    adherirPieza(matriz, posicion){
         try{
         matriz.forEach((fila, y)=>{
             fila.forEach((valor, x)=>{
@@ -205,7 +201,6 @@ class Tetris{
             })
         });
         }catch(error){}
-        this.rectS=rectS;
         this.borrarLinea(posicion); 
     }
     //Este metodo comprueba si hay que borrar alguna, en caso de que sí, la elimina de la matrid "grid"
@@ -219,11 +214,12 @@ class Tetris{
                     this.borrarLineaVista(y);
                     this.grid.splice(y,1);
                     this.grid.unshift(new Array(10).fill(0));
+                    this.lineasBorradas++;
                 }
             }
         }
     }
-    //Este metodo aplica el borrado de linea en la vista si es svg
+    //Este metodo aplica el borrado de linea en la vista SVG
     borrarLineaVista(nLinea){
         let cuadrados=this.svg.getElementsByTagNameNS("http://www.w3.org/2000/svg","rect");
         //Usando HTMLCollection no funciona bien, por eso lo convierto a Array
@@ -251,58 +247,64 @@ class Juego{
         this.pieza=new Pieza(svg, tamanoCuadrado);
         this.controles();
     }
+    lineasBorradas(){
+        return this.tetris.lineasBorradas;
+    }
     loop(){
-        console.log(this.pieza);
+        if(this.tetris.isGameOver())
+            return true
         this.pieza.moveDown(this.tetris);
+        if(this.tetris.isGameOver())
+            return true
     }
     controles(){
         document.addEventListener("keydown", (e)=>{
-            if(e.key=="ArrowDown"){
-                this.pieza.moveDown(this.tetris);
-                if(this.tetris.isGameOver())
-                    location.reload();
-            }
-            if(e.code=="Space"){
+            if(e.key=="ArrowDown")
+                this.loop();
+            if(e.code=="Space")
                 this.pieza.rotate(this.tetris)
-            }
-            if(e.key=="ArrowLeft"){
+            if(e.key=="ArrowLeft")
                 this.pieza.moveLeft(this.tetris);
-            }
-            if(e.key=="ArrowRight"){
+            if(e.key=="ArrowRight")
                 this.pieza.moveRight(this.tetris);
-            }
         })
     }
 
 }
 
 
-var juego;
+var startBtn, juego, colorInput, otraVezbtn;
 window.onload=function(){
+    startBtn=document.getElementById("start");
+    otraVezbtn=document.getElementById("playAgain");
+    colorInput=document.getElementById("svgColor");
     svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
-    juego= new Juego(svg, 20);
+    startBtn.addEventListener("click", ()=>{
+        document.getElementById("firstFC").style.display="none";
+        svg.style.display="initial";
+        svg.style.backgroundColor=colorInput.value;
+        juego = new Juego(svg, 30);
+        loop();
+        
+    });
+    otraVezbtn.addEventListener("click", ()=>{
+        document.getElementById("gameOver").style.display="none";
+        svg.style.display="initial";
+        svg.style.backgroundColor=colorInput.value;
+        juego = new Juego(svg, 30);
+        loop();
+        
+    });
 };
-
-/* 
-var svg, pieza, tetris;
-window.onload=function(){
-    svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
-    pieza=new Pieza(svg, 25);
-    tetris=new Tetris(svg, 25);
-    document.addEventListener("keydown", function(e){
-        if(e.key=="ArrowDown"){
-            pieza.moveDown(tetris);
-            if(tetris.isGameOver())
-                location.reload();
+function loop(){
+    var intervalo=setInterval(()=>{
+        if(juego.loop()){
+            svg.style.display="none";
+            svg.innerHTML="";
+            document.getElementById("gameOver").style.display="flex";
+            document.getElementById("lineasRotas").innerText+=" "+juego.lineasBorradas();
+            clearInterval(intervalo);
         }
-        if(e.code=="Space"){
-            pieza.rotate(tetris)
-        }
-        if(e.key=="ArrowLeft"){
-            pieza.moveLeft( tetris);
-        }
-        if(e.key=="ArrowRight"){
-            pieza.moveRight( tetris);
-        }
-    })
-}; */
+    },500);
+    
+}
