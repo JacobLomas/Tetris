@@ -269,11 +269,11 @@ export class Juego{
                     this.pieza.moveLeft(this.tetris);
                 else
                     if(toqueX>anchoWindow*0.66 && toqueY<altoWindow*0.66)
-                        this.pieza.rotate(this.tetris);
+                        this.pieza.moveRight(this.tetris); 
                     else if(toqueY>altoWindow*0.66 && toqueX>anchoWindow*0.33 && toqueX<anchoWindow*0.66)
                             this.loop();
                         else
-                            this.pieza.moveRight(this.tetris);           
+                            this.pieza.rotate(this.tetris);
             })
         }
         //Eventos de manejo en ordenadores
