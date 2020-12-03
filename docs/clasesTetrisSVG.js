@@ -267,13 +267,12 @@ export class Juego{
                 let toqueY=e.touches[0].pageY;
                 if(toqueX<anchoWindow*0.33 && toqueY<altoWindow*0.66)
                     this.pieza.moveLeft(this.tetris);
-                else
-                    if(toqueX>anchoWindow*0.66 && toqueY<altoWindow*0.66)
-                        this.pieza.rotate(this.tetris);
-                    else if(toqueY>altoWindow*0.66 && toqueX>anchoWindow*0.33 && toqueX<anchoWindow*0.66)
+                if(toqueX>anchoWindow*0.66 && toqueY<altoWindow*0.66)
+                    this.pieza.moveRight(this.tetris); 
+                if(toqueY>altoWindow*0.66 && toqueX>anchoWindow*0.33 && toqueX<anchoWindow*0.66)
                             this.loop();
-                        else
-                            this.pieza.moveRight(this.tetris); 
+                if(toqueY<altoWindow*0.66 && toqueX>anchoWindow*0.33 && toqueX<anchoWindow*0.66)
+                    this.pieza.rotate(this.tetris);
             })
         }
         //Eventos de manejo en ordenadores
