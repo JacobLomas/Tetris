@@ -265,9 +265,9 @@ export class Juego{
                 let altoWindow=document.body.getBoundingClientRect().height;
                 let toqueX=e.touches[0].pageX;
                 let toqueY=e.touches[0].pageY;
-                if(toqueX<anchoWindow*0.33 && toqueY<altoWindow*0.66)
+                if(toqueX<anchoWindow*0.33)
                     this.pieza.moveLeft(this.tetris);
-                if(toqueX>anchoWindow*0.66 && toqueY<altoWindow*0.66)
+                if(toqueX>anchoWindow*0.66)
                     this.pieza.moveRight(this.tetris); 
                 if(toqueY>altoWindow*0.66 && toqueX>anchoWindow*0.33 && toqueX<anchoWindow*0.66)
                             this.loop();
