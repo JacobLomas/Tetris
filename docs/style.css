@@ -7,7 +7,7 @@ svg{
 .firstFC{
     display: flex;
     flex-flow: column wrap;
-    width: 100%;
+    width: 80%;
     align-content: center;
 
 }
@@ -41,5 +41,15 @@ button:hover{
 }
 
 #gameOver{
+    display: none;
+}
+rect{
+    stroke-linejoin: miter;
+    stroke-width: 2px;
+    stroke: #a8a892;
+
+
+}
+#spoty{
     display: none;
 }

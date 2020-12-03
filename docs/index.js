@@ -1,13 +1,15 @@
 import{Pieza, Tetris, Juego} from "./clasesTetrisSVG.js";
 
-var svg, startBtn, juego, colorInput, otraVezbtn;
+var spoty,svg, startBtn, juego, colorInput, otraVezbtn;
 window.onload=function(){
+    spoty=document.getElementById("spoty");
     startBtn=document.getElementById("start");
     otraVezbtn=document.getElementById("playAgain");
     colorInput=document.getElementById("svgColor");
     svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
-    startBtn.addEventListener("click", ()=>{
+    startBtn.addEventListener("click", ()=>{ 
         document.getElementById("firstFC").style.display="none";
+        spoty.style.display="initial";
         svg.style.display="initial";
         svg.style.backgroundColor=colorInput.value;
         juego = new Juego(svg, 30);
