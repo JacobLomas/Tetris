@@ -32,7 +32,7 @@ function loop(){
             svg.style.display="none";
             svg.innerHTML="";
             document.getElementById("gameOver").style.display="flex";
-            document.getElementById("lineasRotas").innerText+="Lineas rotas: "+juego.lineasBorradas();
+            document.getElementById("lineasRotas").innerText="Lineas rotas: "+juego.lineasBorradas();
             clearInterval(intervalo);
         }
     },500);
