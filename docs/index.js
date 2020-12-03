@@ -1,6 +1,6 @@
 import{Pieza, Tetris, Juego} from "./clasesTetrisSVG.js";
 
-var spoty,svg, startBtn, juego, colorInput, otraVezbtn;
+var svg, startBtn, juego, colorInput, otraVezbtn;
 window.onload=function(){
     spoty=document.getElementById("spoty");
     startBtn=document.getElementById("start");
@@ -10,9 +10,6 @@ window.onload=function(){
     startBtn.addEventListener("click", ()=>{ 
         document.getElementById("firstFC").style.display="none";
         spoty.style.display="initial";
-        if(/android/i.test(navigator.userAgent) || /windows phone/i.test(navigator.userAgent) || (/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream))
-            spoty.style.display="none";
-        svg.style.display="initial";
         svg.style.backgroundColor=colorInput.value;
         juego = new Juego(svg, 30);
         loop();
