@@ -242,7 +242,10 @@ export class Tetris{
 }
 
 export class Juego{
-    constructor(svg, tamanoCuadrado){
+    constructor(div, tamanoCuadrado, colorFondo){
+        var svg=document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.style.backgroundColor=colorFondo;
+        div.appendChild(svg);
         this.tetris=new Tetris(svg, tamanoCuadrado);
         this.pieza=new Pieza(svg, tamanoCuadrado);
         this.controles();

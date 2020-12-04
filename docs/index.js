@@ -1,25 +1,24 @@
-import{Pieza, Tetris, Juego} from "./clasesTetrisSVG.js";
+import{Juego} from "./clasesTetrisSVG.js";
 
-var spoty,svg, startBtn, juego, colorInput, otraVezbtn;
+var div, startBtn, juego, colorInput, otraVezbtn;
 window.onload=function(){
-    spoty=document.getElementById("spoty");
     startBtn=document.getElementById("start");
     otraVezbtn=document.getElementById("playAgain");
     colorInput=document.getElementById("svgColor");
-    svg=document.getElementsByTagNameNS("http://www.w3.org/2000/svg","svg")[0];
+    div=document.getElementById("divTetris")
     startBtn.addEventListener("click", ()=>{ 
         document.getElementById("firstFC").style.display="none";
-        svg.style.display="initial";
-        svg.style.backgroundColor=colorInput.value;
-        juego = new Juego(svg, 30);
+        div.style.display="initial";
+        let colorFondo=colorInput.value;
+        juego = new Juego(div, 30, colorFondo);
         loop();
         
     });
     otraVezbtn.addEventListener("click", ()=>{
         document.getElementById("gameOver").style.display="none";
-        svg.style.display="initial";
-        svg.style.backgroundColor=colorInput.value;
-        juego = new Juego(svg, 30);
+        div.style.display="initial";
+        let colorFondo=colorInput.value;
+        juego = new Juego(div, 30, colorFondo);
         loop();
         
     });
@@ -28,8 +27,8 @@ window.onload=function(){
 function loop(){
     var intervalo=setInterval(()=>{
         if(juego.loop()){
-            svg.style.display="none";
-            svg.innerHTML="";
+            div.style.display="none";
+            div.innerHTML="";
             document.getElementById("gameOver").style.display="flex";
             document.getElementById("lineasRotas").innerText="Lineas rotas: "+juego.lineasBorradas();
             clearInterval(intervalo);
