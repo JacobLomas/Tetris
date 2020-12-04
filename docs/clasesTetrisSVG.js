@@ -110,7 +110,7 @@ export class Pieza{
                         [this.matriz[x][y], this.matriz[y][x]]= [this.matriz[y][x], this.matriz[x][y]];
                     }
                 }
-                this.posicion.x=pos;
+                this.offset.x=pos;
                 break;
             }
         }
